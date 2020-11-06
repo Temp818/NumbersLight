@@ -1,0 +1,8 @@
+dependencies {
+
+    testImplementation "junit:junit:$project.test.junit"
+    testImplementation "androidx.arch.core:core-testing:$project.test.arch_core"
+    androidTestImplementation "androidx.test.ext:junit:$project.test.androidJunit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$project.test.espresso"
+
+}
