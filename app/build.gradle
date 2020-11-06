@@ -6,6 +6,11 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion project.sdk
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.dev.numberslight"
         minSdkVersion project.minSdk
@@ -30,6 +35,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "com.google.dagger:dagger-compiler:$project.libs.dagger"
     kapt "se.ansman.kotshi:compiler:$project.libs.kotshi"
     kapt "androidx.lifecycle:lifecycle-compiler:$project.libs.lifecycle_version"
@@ -46,6 +53,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$project.libs.appcompat"
     implementation "com.google.dagger:dagger:$project.libs.dagger"
     implementation "com.squareup.picasso:picasso:$project.libs.picasso"
+    implementation "androidx.recyclerview:recyclerview:$project.libs.recyclerview"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$project.debug.leakcanary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$project.debug.leakcanary"
