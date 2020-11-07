@@ -2,12 +2,13 @@ package com.dev.numberslight
 
 import android.app.Application
 import android.os.StrictMode
+import com.dev.numberslight.injection.component.AppComponent
 import com.dev.numberslight.injection.component.DaggerAppComponent
 import com.squareup.leakcanary.LeakCanary
 import timber.log.Timber
 
 class NumbersLightApplication : Application() {
-    val appComponent = DaggerAppComponent.create()
+    val appComponent: AppComponent = DaggerAppComponent.create()
 
     override fun onCreate() {
         initLeakCanary()

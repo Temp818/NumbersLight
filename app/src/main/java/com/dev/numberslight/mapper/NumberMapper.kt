@@ -1,0 +1,12 @@
+package com.dev.numberslight.mapper
+
+import com.dev.numberslight.api.response.NumberLightResponse
+import com.dev.numberslight.model.NumberLight
+import javax.inject.Inject
+
+class NumberMapper @Inject constructor() {
+    fun convertNumbersResponseToNumber(numbersLightResponse: List<NumberLightResponse>) =
+        numbersLightResponse.map {
+            NumberLight(it.name, it.image)
+        }
+}
