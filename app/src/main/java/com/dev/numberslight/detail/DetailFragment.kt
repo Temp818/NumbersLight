@@ -56,9 +56,7 @@ class DetailFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
 
         binding.btnRetry.setOnClickListener {
-            name?.let {
-                viewModel.getDetail(it)
-            }
+            getDetail(name)
         }
     }
 
@@ -119,6 +117,11 @@ class DetailFragment : Fragment() {
         name = null
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+    
     companion object {
         private const val ARG_NAME = "NAME"
         const val TAG = "TAG_DETAIL"
