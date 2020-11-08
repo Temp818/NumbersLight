@@ -2,7 +2,7 @@ package com.dev.numberslight.detail.viewmodel
 
 import androidx.lifecycle.*
 import com.dev.numberslight.model.Detail
-import com.dev.numberslight.repository.DetailRepository
+import com.dev.numberslight.detail.repository.DetailRepository
 import com.dev.numberslight.util.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject

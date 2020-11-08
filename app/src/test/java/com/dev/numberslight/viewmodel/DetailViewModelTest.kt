@@ -2,12 +2,9 @@ package com.dev.numberslight.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.dev.numberslight.detail.repository.DetailRepository
 import com.dev.numberslight.detail.viewmodel.DetailViewModel
 import com.dev.numberslight.model.Detail
-import com.dev.numberslight.model.NumberLight
-import com.dev.numberslight.numbers.viewmodel.NumbersViewModel
-import com.dev.numberslight.repository.DetailRepository
-import com.dev.numberslight.repository.NumbersRepository
 import com.dev.numberslight.util.Resource
 import com.dev.numberslight.util.TestCoroutineRule
 import com.nhaarman.mockitokotlin2.*

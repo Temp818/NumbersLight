@@ -1,9 +1,11 @@
 package com.dev.numberslight.repository
 
 import com.dev.numberslight.api.NumbersLightService
+import com.dev.numberslight.detail.repository.DetailRepository
 import com.dev.numberslight.mapper.NumberMapper
 import com.dev.numberslight.model.Detail
 import com.dev.numberslight.model.NumberLight
+import com.dev.numberslight.numbers.repository.NumbersRepository
 import com.dev.numberslight.util.Resource
 import javax.inject.Inject
 

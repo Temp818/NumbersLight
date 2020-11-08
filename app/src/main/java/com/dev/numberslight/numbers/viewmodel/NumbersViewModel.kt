@@ -1,8 +1,11 @@
 package com.dev.numberslight.numbers.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dev.numberslight.model.NumberLight
-import com.dev.numberslight.repository.NumbersRepository
+import com.dev.numberslight.numbers.repository.NumbersRepository
 import com.dev.numberslight.util.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject

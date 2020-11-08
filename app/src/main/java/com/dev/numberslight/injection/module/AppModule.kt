@@ -1,8 +1,8 @@
 package com.dev.numberslight.injection.module
 
-import com.dev.numberslight.repository.DetailRepository
+import com.dev.numberslight.detail.repository.DetailRepository
+import com.dev.numberslight.numbers.repository.NumbersRepository
 import com.dev.numberslight.repository.NumberRepositoryImpl
-import com.dev.numberslight.repository.NumbersRepository
 import dagger.Binds
 import dagger.Module
 

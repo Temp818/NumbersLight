@@ -1,4 +1,4 @@
-package com.dev.numberslight.repository
+package com.dev.numberslight.detail.repository
 
 import com.dev.numberslight.model.Detail
 import com.dev.numberslight.model.NumberLight
