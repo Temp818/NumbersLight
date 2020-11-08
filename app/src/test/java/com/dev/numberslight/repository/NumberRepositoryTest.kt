@@ -1,8 +1,10 @@
 package com.dev.numberslight.repository
 
 import com.dev.numberslight.api.NumbersLightService
+import com.dev.numberslight.api.response.DetailResponse
 import com.dev.numberslight.api.response.NumberLightResponse
 import com.dev.numberslight.mapper.NumberMapper
+import com.dev.numberslight.model.Detail
 import com.dev.numberslight.model.NumberLight
 import com.dev.numberslight.util.Resource
 import com.dev.numberslight.util.TestCoroutineRule
@@ -17,8 +19,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import java.io.IOException
-import java.lang.Exception
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
@@ -59,7 +59,7 @@ class NumberRepositoryTest {
             //endregion
 
             //region When
-            val data = repository.getNumbersAsync()
+            val data = repository.getNumbers()
             //endregion
 
             //region Then
@@ -84,13 +84,38 @@ class NumberRepositoryTest {
             //endregion
 
             //region When
-            repository.getNumbersAsync()
-            repository.getNumbersAsync()
+            repository.getNumbers()
+            repository.getNumbers()
             //endregion
 
             //region Then
             verify(service, times(1)).getNumbersLight()
             verify(mapper, times(1)).convertNumbersResponseToNumber(getNumberLightCall)
+            //endregion
+        }
+    }
+
+    @Test
+    fun testFetchDetailData() {
+        runBlocking {
+            //region Given
+            val mapper = mock<NumberMapper>()
+            val service = mock<NumbersLightService>()
+            val repository = NumberRepositoryImpl(mapper, service)
+            val getDetailCall = DetailResponse("Foo", "Bar", "Image")
+            val expectedData = Resource.Done(Detail("Foo", "Bar", "Image"))
+            whenever(service.getDetail(any())).thenReturn(getDetailCall)
+            whenever(mapper.convertDetailResponseToDetail(any())).thenReturn(Detail("Foo", "Bar", "Image"))
+            //endregion
+
+            //region When
+            val data = repository.getDetail("Foo")
+            //endregion
+
+            //region Then
+            verify(service).getDetail("Foo")
+            verify(mapper).convertDetailResponseToDetail(getDetailCall)
+            assertThat(data).isEqualTo(expectedData)
             //endregion
         }
     }

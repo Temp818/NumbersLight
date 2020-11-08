@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NumbersLight</string>
+    <string name="detail_information">Select a number</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -2,8 +2,11 @@ package com.dev.numberslight.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.dev.numberslight.detail.viewmodel.DetailViewModel
+import com.dev.numberslight.model.Detail
 import com.dev.numberslight.model.NumberLight
 import com.dev.numberslight.numbers.viewmodel.NumbersViewModel
+import com.dev.numberslight.repository.DetailRepository
 import com.dev.numberslight.repository.NumbersRepository
 import com.dev.numberslight.util.Resource
 import com.dev.numberslight.util.TestCoroutineRule
@@ -22,7 +25,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class NumbersViewModelTest {
+class DetailViewModelTest {
 
     @get:Rule
     val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
@@ -49,57 +52,57 @@ class NumbersViewModelTest {
     }
 
     @Test
-    fun testGetNumbersWithSuccess() {
+    fun testGetDetailWithSuccess() {
         runBlocking {
             //region Given
-            val numbersResourceObserver = mock<Observer<Resource<out List<NumberLight>>>>()
-            val numbersResourceCaptor: KArgumentCaptor<(Resource<List<NumberLight>>)> =
+            val detailResourceObserver = mock<Observer<Resource<out Detail>>>()
+            val detailResourceCaptor: KArgumentCaptor<(Resource<Detail>)> =
                 argumentCaptor()
-            val numbersRepository = mock<NumbersRepository>()
-            val data: Resource<List<NumberLight>> =
-                Resource.Done(listOf(NumberLight("Foo", "Bar"), NumberLight("Name", "Image")))
-            val numbersViewModel = NumbersViewModel(numbersRepository)
-            whenever(numbersRepository.getNumbers()).thenReturn(data)
-            numbersViewModel.numbers.observeForever(numbersResourceObserver)
+            val detailRepository = mock<DetailRepository>()
+            val data: Resource<Detail> =
+                Resource.Done(Detail("Foo", "Bar", "Image"))
+            val detailViewModel = DetailViewModel(detailRepository)
+            whenever(detailRepository.getDetail(any())).thenReturn(data)
+            detailViewModel.detail.observeForever(detailResourceObserver)
             //endregion
 
             //region When
-            numbersViewModel.getNumbers()
+            detailViewModel.getDetail("Foo")
 
             delay(10)
             //endregion
 
             //region Then
-            verify(numbersResourceObserver, times(2)).onChanged(numbersResourceCaptor.capture())
-            assertThat(numbersResourceCaptor.firstValue).isEqualTo(Resource.Loading(null))
-            assertThat(numbersResourceCaptor.secondValue).isEqualTo((data))
+            verify(detailResourceObserver, times(2)).onChanged(detailResourceCaptor.capture())
+            assertThat(detailResourceCaptor.firstValue).isEqualTo(Resource.Loading(null))
+            assertThat(detailResourceCaptor.secondValue).isEqualTo((data))
             //endregion
         }
     }
 
     @Test
-    fun testGetNumbersWithFailure() {
+    fun testGetDetailWithFailure() {
         runBlocking {
             //region Given
-            val numbersResourceObserver = mock<Observer<Resource<out List<NumberLight>>>>()
-            val numbersResourceCaptor: KArgumentCaptor<(Resource<List<NumberLight>>)> =
+            val detailResourceObserver = mock<Observer<Resource<out Detail>>>()
+            val detailResourceCaptor: KArgumentCaptor<(Resource<Detail>)> =
                 argumentCaptor()
-            val numbersRepository = mock<NumbersRepository>()
-            val numbersViewModel = NumbersViewModel(numbersRepository)
-            val error: Resource<List<NumberLight>> = Resource.Error(Throwable(), null)
-            whenever(numbersRepository.getNumbers()).thenReturn(error)
-            numbersViewModel.numbers.observeForever(numbersResourceObserver)
+            val detailRepository = mock<DetailRepository>()
+            val detailViewModel = DetailViewModel(detailRepository)
+            val error: Resource<Detail> = Resource.Error(Throwable(), null)
+            whenever(detailRepository.getDetail(any())).thenReturn(error)
+            detailViewModel.detail.observeForever(detailResourceObserver)
             //endregion
 
             //region When
-            numbersViewModel.getNumbers()
+            detailViewModel.getDetail("Foo")
             delay(10)
             //endregion
 
             //region Then
-            verify(numbersResourceObserver, times(2)).onChanged(numbersResourceCaptor.capture())
-            assertThat(numbersResourceCaptor.firstValue).isEqualTo(Resource.Loading(null))
-            assertThat(numbersResourceCaptor.secondValue).isEqualTo((error))
+            verify(detailResourceObserver, times(2)).onChanged(detailResourceCaptor.capture())
+            assertThat(detailResourceCaptor.firstValue).isEqualTo(Resource.Loading(null))
+            assertThat(detailResourceCaptor.secondValue).isEqualTo((error))
             //endregion
         }
     }

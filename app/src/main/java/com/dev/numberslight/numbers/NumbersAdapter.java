@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dev.numberslight.R;
 import com.dev.numberslight.model.NumberLight;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,8 @@ public class NumbersAdapter extends RecyclerView.Adapter<NumbersAdapter.ViewHold
 
     private Listener listener;
     private List<NumberLight> numberLights = new ArrayList<>();
+    private int selectedPos = RecyclerView.NO_POSITION;
+    private boolean shouldHighlight;
 
     public NumbersAdapter(Listener listener) {
         this.listener = listener;
@@ -33,7 +34,7 @@ public class NumbersAdapter extends RecyclerView.Adapter<NumbersAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(listener, numberLights);
+        holder.bind(listener, numberLights.get(position));
     }
 
     @Override
@@ -41,44 +42,53 @@ public class NumbersAdapter extends RecyclerView.Adapter<NumbersAdapter.ViewHold
         return numberLights.size();
     }
 
-    public void setNumberLights(List<NumberLight> numberLights) {
+    public void setNumberLights(List<NumberLight> numberLights, boolean shouldHighlight) {
         this.numberLights = numberLights;
+        this.shouldHighlight = shouldHighlight;
         notifyDataSetChanged();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public void setSelectedPos(int selectedPos) {
+        this.selectedPos = selectedPos;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Listener listener = null;
         private ImageView imageView;
         private TextView textView;
-        private ConstraintLayout item;
+        private NumberLight number;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_image);
             textView = itemView.findViewById(R.id.tv_number);
-            item = itemView.findViewById(R.id.item);
+            ConstraintLayout item = itemView.findViewById(R.id.item);
             item.setOnClickListener(this);
         }
 
-        public void bind(Listener listener, List<NumberLight> numberLights) {
+        public void bind(Listener listener, NumberLight number) {
             this.listener = listener;
-            textView.setText(numberLights.get(getAdapterPosition()).getName());
-            Picasso.get().load(numberLights.get(getAdapterPosition()).getImage())
+            this.number = number;
+            textView.setText(number.getName());
+            Picasso.get().load(number.getImage())
                     .placeholder(R.drawable.image_placeholder)
                     .error(R.drawable.image_error)
                     .into(imageView);
+            itemView.setSelected(selectedPos == getAdapterPosition() && shouldHighlight);
         }
 
         @Override
         public void onClick(View view) {
             if(listener != null) {
-                listener.onNumberClick(getAdapterPosition());
-                item.setSelected(true);
+                listener.onNumberClick(number);
+                setSelectedPos(getAdapterPosition());
+                notifyDataSetChanged();
             }
         }
     }
 
     interface Listener {
-        void onNumberClick(int position);
+        void onNumberClick(NumberLight numberLight);
     }
 }
 
